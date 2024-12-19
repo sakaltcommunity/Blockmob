@@ -27,7 +27,7 @@ public class LuxarEntity extends PathAwareEntity {
                 .add(EntityAttributes.GENERIC_MAX_HEALTH, 16.0)  // HP
                 .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 4.0)  // 攻撃力
                 .add(EntityAttributes.GENERIC_ARMOR, 9.0)  // 防御力
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2);  // 移動速度
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.48);  // 移動速度
     }
 
     @Override
