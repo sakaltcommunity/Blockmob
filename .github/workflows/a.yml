@@ -3,7 +3,7 @@ name: Convert WAV to OGG
 on:
   push:
     branches:
-    - main
+      - main  # ここでプッシュするブランチ名を指定
     paths:
       - "**.wav"
 
@@ -28,4 +28,4 @@ jobs:
         git config --global user.email 'github-actions@github.com'
         git add .
         git commit -m "Convert WAV files to OGG"
-        git push
+        git push origin main  # ここでプッシュするブランチ名を指定
