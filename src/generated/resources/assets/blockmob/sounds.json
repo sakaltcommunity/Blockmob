@@ -1,0 +1,12 @@
+{
+  "blockmob": {
+    "block_mob_attack": {
+      "sounds": [
+        {
+          "name": "blockmob:block_mob_attack",
+          "stream": false
+        }
+      ]
+    }
+  }
+}
