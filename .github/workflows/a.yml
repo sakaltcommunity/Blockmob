@@ -2,6 +2,8 @@ name: Convert WAV to OGG
 
 on:
   push:
+    branches:
+    - main
     paths:
       - "**.wav"
 
