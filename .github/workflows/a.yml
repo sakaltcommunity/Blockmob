@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main  # ここでプッシュするブランチ名を指定
-    paths:
-      - "**.wav"
 
 jobs:
   convert:
