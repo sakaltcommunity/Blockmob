@@ -43,5 +43,38 @@ public class LuxarEntity extends PathAwareEntity {
         if (target instanceof LivingEntity) {
             ((LivingEntity) target).addStatusEffect(new StatusEffectInstance(ModEffects.LUXMARK, 100, 3));
         }
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return SoundEvents.ENTITY_GENERIC_AMBIENT;
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return SoundEvents.ENTITY_GENERIC_DEATH;
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(DamageSource source) {
+        return BlockMobMod.BLOCK_MOB_ATTACK;
+    }
+
+    @Override
+    protected void playAmbientSound() {
+        this.playSound(adjustPitch(this.getAmbientSound(), 0.4f), 1.0F, 0.4F);
+    }
+
+    @Override
+    protected void playDeathSound() {
+        this.playSound(adjustPitch(this.getDeathSound(), 0.7f), 1.0F, 0.7F);
+    }
+
+    private SoundEvent adjustPitch(SoundEvent soundEvent, float pitch) {
+        // サウンドイベントのピッチを調整するコードを実装
+        return new SoundEvent(soundEvent.getId()) {
+            @Override
+            public float getPitch() {
+                return pitch;
+            }
+        };
     }
 }
