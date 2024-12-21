@@ -56,7 +56,7 @@ public class BlockMobMod implements ModInitializer {
         // 属性登録
         FabricDefaultAttributeRegistry.register(IGNITZE, IgnitzeEntity.createIgnitzeAttributes());
         FabricDefaultAttributeRegistry.register(LUXAR, LuxarEntity.createLuxarAttributes());
-
+        Registry.register(Registry.SOUND_EVENT, BLOCK_MOB_ATTACK_ID, BLOCK_MOB_ATTACK);
         // スポーンエッグ登録
         Registry.register(Registries.ITEM, new Identifier(MOD_ID, "ignitze_spawn_egg"), IGNITZE_SPAWN_EGG);
         Registry.register(Registries.ITEM, new Identifier(MOD_ID, "luxar_spawn_egg"), LUXAR_SPAWN_EGG);
