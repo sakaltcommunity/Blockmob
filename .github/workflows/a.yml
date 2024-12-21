@@ -1,0 +1,29 @@
+name: Convert WAV to OGG
+
+on:
+  push:
+    paths:
+      - "**.wav"
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up FFmpeg
+      run: sudo apt-get install -y ffmpeg
+
+    - name: Find and convert WAV files to OGG
+      run: |
+        find . -name "*.wav" -exec bash -c 'ffmpeg -i "$0" "${0%.wav}.ogg"' {} \;
+      
+    - name: Commit and push changes
+      run: |
+        git config --global user.name 'github-actions'
+        git config --global user.email 'github-actions@github.com'
+        git add .
+        git commit -m "Convert WAV files to OGG"
+        git push
