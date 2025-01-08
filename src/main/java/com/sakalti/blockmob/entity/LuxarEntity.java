@@ -7,13 +7,22 @@ import net.minecraft.entity.ai.goal.GoalSelector;
 import net.minecraft.entity.ai.goal.LookAroundGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
+import net.minecraft.item.Items;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Item;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.entity.Entity;
 import net.minecraft.potion.StatusEffectInstance;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 
 public class LuxarEntity extends PathAwareEntity {
 
@@ -35,6 +44,7 @@ public class LuxarEntity extends PathAwareEntity {
         this.goalSelector.add(1, new MeleeAttackGoal(this, 1.0, false));
         this.goalSelector.add(2, new WanderAroundFarGoal(this, 1.0));
         this.goalSelector.add(3, new LookAroundGoal(this));
+        this.goalSelector.add(4, new NearestAttackableTargetGoal<>(this, LivingEntity.class, true));
     }
 
     @Override
@@ -43,6 +53,17 @@ public class LuxarEntity extends PathAwareEntity {
         if (target instanceof LivingEntity) {
             ((LivingEntity) target).addStatusEffect(new StatusEffectInstance(ModEffects.LUXMARK, 100, 3));
         }
+    }
+
+    // ドロップアイテム
+    @Override
+    protected void dropLoot(DamageSource source, boolean causedByPlayer) {
+        super.dropLoot(source, causedByPlayer);
+        if (this.random.nextFloat() < 0.094) {  // 9.4%でダイヤを1個
+            this.dropItem(Items.DIAMOND);
+        }
+    }
+
     @Override
     protected SoundEvent getAmbientSound() {
         return SoundEvents.ENTITY_GENERIC_AMBIENT;
@@ -69,12 +90,17 @@ public class LuxarEntity extends PathAwareEntity {
     }
 
     private SoundEvent adjustPitch(SoundEvent soundEvent, float pitch) {
-        // サウンドイベントのピッチを調整するコードを実装
         return new SoundEvent(soundEvent.getId()) {
             @Override
             public float getPitch() {
                 return pitch;
             }
         };
+    }
+
+    // スポーン条件（夜間にスポーン）
+    @Override
+    public boolean canSpawn(ServerWorld world, boolean spawnReason) {
+        return world.isNight() && super.canSpawn(world, spawnReason);
     }
 }
